@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    margin-bottom: 0.5em;
+}
+
+#arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid red;
+    position: absolute;
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+#wheelCanvas {
+    border: 5px solid black;
+    border-radius: 50%;
+    margin: 50px auto;
+    display: block;
+    background-color: white;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#spinButton {
+    background-color: #28a745;
+}
+
+#updateButton {
+    background-color: #007bff;
+}
