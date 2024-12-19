@@ -12,6 +12,25 @@ const colors = [
     "#9b59b6", "#e67e22", "#1abc9c", "#c0392b", "#16a085"
 ];
 
+// Rutas de los sonidos
+const spinSound = new Audio('./sounds/roll.mp3'); // Sonido de giro
+const stopSound = new Audio('./sounds/stop.mp3'); // Sonido de finalización
+const loadSound = new Audio('./sounds/load.mp3'); // Sonido de carga
+
+// Función para reproducir sonido con manejo de errores
+function playSound(audio) {
+    audio.currentTime = 0; // Reinicia el sonido
+    audio.play().catch(error => {
+        console.error("Error al reproducir sonido:", error);
+    });
+}
+
+// Función para pausar sonido
+function stopSoundPlayback(audio) {
+    audio.pause(); // Pausa el sonido
+    audio.currentTime = 0; // Reinicia el sonido a su inicio
+}
+
 // Función para cargar nombres automáticamente desde 'nombres.txt'
 function loadNames() {
     fetch('nombres.txt')
@@ -24,6 +43,7 @@ function loadNames() {
             }
             segments = names;
             createWheel();
+            playSound(loadSound); // Reproducir sonido de carga
             alert("¡Nombres cargados correctamente!");
         })
         .catch(error => {
@@ -66,6 +86,8 @@ function spinWheel() {
     if (spinning || segments.length === 0) return;
 
     spinning = true;
+    playSound(spinSound); // Reproducir sonido de giro
+
     const spinDuration = 4000; // Duración del giro en ms
     const randomSpins = Math.random() * 2 + 3; // Entre 3 y 5 vueltas completas
     const finalRotation = randomSpins * 2 * Math.PI;
@@ -83,7 +105,13 @@ function spinWheel() {
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
-            spinning = false; // Detener el giro
+            // Detener el sonido de giro
+            stopSoundPlayback(spinSound);
+
+            // Reproducir sonido de finalización
+            playSound(stopSound);
+
+            spinning = false;
         }
     }
 
@@ -93,8 +121,13 @@ function spinWheel() {
 // Cargar nombres automáticamente al iniciar
 loadNames();
 
-// Asociar el botón de actualización a la función createWheel
-updateButton.addEventListener("click", createWheel);
+// Asociar el botón de actualización
+updateButton.addEventListener("click", () => {
+    playSound(loadSound); // Reproducir sonido de actualización
+    createWheel(); // Actualizar ruleta
+});
 
-// Asociar el botón de girar a la función spinWheel
-spinButton.addEventListener("click", spinWheel);
+// Asociar el botón de giro
+spinButton.addEventListener("click", () => {
+    spinWheel();
+});
