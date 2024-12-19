@@ -83,24 +83,11 @@ function spinWheel() {
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
-            determineWinner();
-            spinning = false;
+            spinning = false; // Detener el giro
         }
     }
 
     requestAnimationFrame(animate);
-}
-
-// Función para determinar el nombre ganador
-function determineWinner() {
-    const totalSegments = segments.length;
-    const arc = (2 * Math.PI) / totalSegments;
-
-    const normalizedRotation = (rotation % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
-    const winningIndex = Math.floor(totalSegments - (normalizedRotation / arc)) % totalSegments;
-
-    const winnerName = segments[winningIndex];
-    alert(`¡El ganador es: ${winnerName}!`);
 }
 
 // Cargar nombres automáticamente al iniciar
@@ -108,3 +95,6 @@ loadNames();
 
 // Asociar el botón de actualización a la función createWheel
 updateButton.addEventListener("click", createWheel);
+
+// Asociar el botón de girar a la función spinWheel
+spinButton.addEventListener("click", spinWheel);
